@@ -20,6 +20,7 @@ public class PlanetCrudService {
 
             session.persist(planet);
             transaction.commit();
+            transaction.rollback();
         }
     }
 
@@ -37,6 +38,7 @@ public class PlanetCrudService {
 
             session.persist(planet);
             transaction.commit();
+            transaction.rollback();
         }
     }
 
@@ -47,6 +49,7 @@ public class PlanetCrudService {
 
             session.remove(planet);
             transaction.commit();
+            transaction.rollback();
         }
     }
 

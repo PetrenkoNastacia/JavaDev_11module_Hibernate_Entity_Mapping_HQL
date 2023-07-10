@@ -19,6 +19,7 @@ public class ClientCrudService {
 
         session.persist(client);
         transaction.commit();
+        transaction.rollback();
         session.close();
     }
 
@@ -39,6 +40,7 @@ public class ClientCrudService {
 
         session.persist(client);
         transaction.commit();
+        transaction.rollback();
         session.close();
     }
 
@@ -50,6 +52,7 @@ public class ClientCrudService {
 
         session.remove(client);
         transaction.commit();
+        transaction.rollback();
         session.close();
     }
 
