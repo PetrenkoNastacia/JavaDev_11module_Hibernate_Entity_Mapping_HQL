@@ -11,7 +11,7 @@ public class PlanetCrudService {
 
     private final SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 
-    public void createPlanet(String id, String name) {
+    public void create(String id, String name) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
@@ -27,13 +27,13 @@ public class PlanetCrudService {
         }
     }
 
-    public Planet getPlanetById(String id) {
+    public Planet getById(String id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Planet.class, id);
         }
     }
 
-    public void updatePlanet(String id, String name) {
+    public void update(String id, String name) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
@@ -48,7 +48,7 @@ public class PlanetCrudService {
         }
     }
 
-    public void deletePlanetById(String id) {
+    public void deleteById(String id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
@@ -61,7 +61,7 @@ public class PlanetCrudService {
         }
     }
 
-    public List<Planet> getAllPlanets() {
+    public List<Planet> getAll() {
         try (Session session = sessionFactory.openSession()) {
             List<Planet> planets = session.createQuery("from Planet", Planet.class).list();
             session.close();

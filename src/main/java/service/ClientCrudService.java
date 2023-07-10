@@ -10,7 +10,7 @@ public class ClientCrudService {
 
     private final SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 
-    public void createClient(String name) {
+    public void create(String name) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -25,7 +25,7 @@ public class ClientCrudService {
         }
     }
 
-    public Client getClientById(long id) {
+    public Client getById(long id) {
         Session session = sessionFactory.openSession();
         Client client = session.get(Client.class,id);
         session.close();
@@ -33,7 +33,7 @@ public class ClientCrudService {
         return client;
     }
 
-    public void updateClient(long id, String name) {
+    public void update(long id, String name) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -48,7 +48,7 @@ public class ClientCrudService {
         }
     }
 
-    public void deleteClientById(long id) {
+    public void deleteById(long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -62,7 +62,7 @@ public class ClientCrudService {
         }
     }
 
-    public List<Client> getAllClients() {
+    public List<Client> getAll() {
         Session session = sessionFactory.openSession();
         List<Client> clients = session.createQuery("from entity.Client", Client.class).list();
         session.close();

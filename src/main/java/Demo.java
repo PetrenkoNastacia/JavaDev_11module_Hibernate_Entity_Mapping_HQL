@@ -23,21 +23,21 @@ public class Demo {
 
     public static void clientCrudServiceDemo() {
         ClientCrudService clientCrudService = new ClientCrudService();
-        clientCrudService.createClient("NewClient");
-        System.out.println(clientCrudService.getClientById(11));
-        clientCrudService.updateClient(6, "UpdatedClient");
-        clientCrudService.deleteClientById(7L);
-        System.out.println(clientCrudService.getAllClients());
+        clientCrudService.create("NewClient");
+        System.out.println(clientCrudService.getById(11));
+        clientCrudService.update(6, "UpdatedClient");
+        clientCrudService.deleteById(7L);
+        System.out.println(clientCrudService.getAll());
 
     }
 
     public static void planetCrudServiceDemo() {
         PlanetCrudService planetCrudService = new PlanetCrudService();
-        planetCrudService.createPlanet("NEWPLNT", "NewPlanet");
-        System.out.println(planetCrudService.getPlanetById("PL4"));
-        planetCrudService.updatePlanet("FIRST", "UpdatedPlanet");
-        planetCrudService.deletePlanetById("FOURTH");
-        System.out.println(planetCrudService.getAllPlanets());
+        planetCrudService.create("NEWPLNT", "NewPlanet");
+        System.out.println(planetCrudService.getById("PL4"));
+        planetCrudService.update("FIRST", "UpdatedPlanet");
+        planetCrudService.deleteById("FOURTH");
+        System.out.println(planetCrudService.getAll());
 
     }
 }
