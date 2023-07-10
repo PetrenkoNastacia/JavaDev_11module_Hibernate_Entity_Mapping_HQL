@@ -14,13 +14,16 @@ public class PlanetCrudService {
     public void createPlanet(String id, String name) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = new Planet();
-            planet.setId(id);
-            planet.setName(name);
+            try {
+                Planet planet = new Planet();
+                planet.setId(id);
+                planet.setName(name);
 
-            session.persist(planet);
-            transaction.commit();
-            transaction.rollback();
+                session.persist(planet);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+            }
         }
     }
 
@@ -33,23 +36,28 @@ public class PlanetCrudService {
     public void updatePlanet(String id, String name) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = session.get(Planet.class, id);
-            planet.setName(name);
+            try {
+                Planet planet = session.get(Planet.class, id);
+                planet.setName(name);
 
-            session.persist(planet);
-            transaction.commit();
-            transaction.rollback();
+                session.persist(planet);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+            }
         }
     }
 
     public void deletePlanetById(String id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = session.get(Planet.class, id);
-
-            session.remove(planet);
-            transaction.commit();
-            transaction.rollback();
+            try {
+                Planet planet = session.get(Planet.class, id);
+                session.remove(planet);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+            }
         }
     }
 

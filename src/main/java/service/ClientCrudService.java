@@ -13,14 +13,16 @@ public class ClientCrudService {
     public void createClient(String name) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        try {
+            Client client = new Client();
+            client.setName(name);
 
-        Client client = new Client();
-        client.setName(name);
-
-        session.persist(client);
-        transaction.commit();
-        transaction.rollback();
-        session.close();
+            session.persist(client);
+            transaction.commit();
+            transaction.rollback();
+        } catch (Exception e) {
+            session.close();
+        }
     }
 
     public Client getClientById(long id) {
@@ -34,26 +36,30 @@ public class ClientCrudService {
     public void updateClient(long id, String name) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        try {
+            Client client = session.get(Client.class, id);
+            client.setName(name);
 
-        Client client = session.get(Client.class, id);
-        client.setName(name);
-
-        session.persist(client);
-        transaction.commit();
-        transaction.rollback();
-        session.close();
+            session.persist(client);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+        }
     }
 
     public void deleteClientById(long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        try {
+            Client client = session.get(Client.class, id);
 
-        Client client = session.get(Client.class, id);
-
-        session.remove(client);
-        transaction.commit();
-        transaction.rollback();
-        session.close();
+            session.remove(client);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+        }
     }
 
     public List<Client> getAllClients() {
