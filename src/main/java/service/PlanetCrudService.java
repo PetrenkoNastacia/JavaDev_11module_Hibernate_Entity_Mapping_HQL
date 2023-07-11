@@ -11,21 +11,25 @@ public class PlanetCrudService {
 
     private final SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 
-    public void create(String id, String name) {
-        try (Session session = sessionFactory.openSession()) {
+    public void create(Planet planet) {
+        try(Session session = sessionFactory.openSession()){
             Transaction transaction = session.beginTransaction();
+            planet = session.get(Planet.class, planet.getId());
+            Planet newPlanet = new Planet();
             try {
-                Planet planet = new Planet();
-                planet.setId(id);
-                planet.setName(name);
-
-                session.persist(planet);
+                newPlanet.setId(planet.getId());
+                newPlanet.setName(planet.getName());
+                session.persist(newPlanet);
                 transaction.commit();
             } catch (Exception e) {
+                if (transaction != null) {
                 transaction.rollback();
+                }
             }
         }
     }
+
+
 
     public Planet getById(String id) {
         try (Session session = sessionFactory.openSession()) {
@@ -33,17 +37,18 @@ public class PlanetCrudService {
         }
     }
 
-    public void update(String id, String name) {
+    public void update(Planet planet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
+            planet = session.get(Planet.class, planet.getId());
             try {
-                Planet planet = session.get(Planet.class, id);
-                planet.setName(name);
-
+                planet.setName(planet.getName());
                 session.persist(planet);
                 transaction.commit();
             } catch (Exception e) {
-                transaction.rollback();
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         }
     }
