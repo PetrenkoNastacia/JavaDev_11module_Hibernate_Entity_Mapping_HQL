@@ -43,7 +43,7 @@ public class Demo {
 
         Ticket updateTicketById = ticketCrudService.getById(11);
         updateTicketById.setToPlanet(planetCrudService.getById("THI"));
-        ticketCrudService.update(updateTicketById, 11);
+        ticketCrudService.update(updateTicketById);
         System.out.println("Updated ticket: " + ticketCrudService.getById(11));
 
         ticketCrudService.delete(5);

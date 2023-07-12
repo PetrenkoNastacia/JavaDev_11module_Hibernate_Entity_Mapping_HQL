@@ -31,11 +31,10 @@ public class TicketCrudService {
         }
     }
 
-    public void update(Ticket ticket, long id) {
+    public void update(Ticket ticket) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            ticket.setId(id);
             session.merge(ticket);
             transaction.commit();
         } catch (Exception e) {
