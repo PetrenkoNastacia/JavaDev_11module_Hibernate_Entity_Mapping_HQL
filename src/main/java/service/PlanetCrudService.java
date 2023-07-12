@@ -29,8 +29,6 @@ public class PlanetCrudService {
         }
     }
 
-
-
     public Planet getById(String id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Planet.class, id);

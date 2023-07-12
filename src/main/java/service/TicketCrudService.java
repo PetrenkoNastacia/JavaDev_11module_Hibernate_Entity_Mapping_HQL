@@ -1,8 +1,6 @@
 package service;
 
-import entity.Client;
-import entity.Planet;
-import entity.Ticket;
+import entity.*;
 
 import hibernateUtils.HibernateUtil;
 import org.hibernate.*;
@@ -13,41 +11,35 @@ public class TicketCrudService {
 
     private final SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 
-    public void create(Client client, Planet fromPlanet, Planet toPlanet) {
+    public void create(Ticket ticket) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                Ticket ticket = new Ticket();
-                ticket.setClient(client);
-                ticket.setFromPlanet(fromPlanet);
-                ticket.setToPlanet(toPlanet);
-
                 session.persist(ticket);
                 transaction.commit();
             } catch (Exception e) {
-                transaction.rollback();
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("\nArguments of method create() can't be null");
         }
     }
 
-    public Ticket getById(long id) {
+    public Ticket getById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Ticket.class, id);
         }
     }
 
-    public void update(Client client, long id) {
+    public void update(Ticket ticket, long id) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            try {
-                Ticket ticket = session.get(Ticket.class, id);
-                ticket.setClient(client);
-
-                session.persist(ticket);
-                transaction.commit();
-            } catch (Exception e) {
+            transaction = session.beginTransaction();
+            ticket.setId(id);
+            session.merge(ticket);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
         }
@@ -58,11 +50,12 @@ public class TicketCrudService {
             Transaction transaction = session.beginTransaction();
             try {
                 Ticket ticket = session.get(Ticket.class, id);
-
                 session.remove(ticket);
                 transaction.commit();
             } catch (Exception e) {
-                transaction.rollback();
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         }
     }
